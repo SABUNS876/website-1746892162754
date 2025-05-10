@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Anime Hentai Streaming</title>
+<style>
+  body {
+    margin: 0;
+    background-color: #1c1c1c;
+    color: #e6e6e6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+  main {
+    flex: 1 0 auto;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+  }
+  .anime-card {
+    background-color: #2a2a2a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(255, 60, 172, 0.4);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .anime-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 3px #ff3cac;
+  }
+  .anime-thumb {
+    width: 100%;
+    aspect-ratio: 9 / 12;
+    object-fit: cover;
+    border-bottom: 2px solid #ff3cac;
+  }
+  .anime-info {
+    padding: 0.75rem;
+    text-align: center;
+  }
+  .anime-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #ff6fab;
+  }
+  footer {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
+  @media (max-width: 600px) {
+    main {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      padding: 0.5rem;
+    }
+    .anime-card {
+      border-radius: 8px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>Streaming Anime Hentai Terbaru & Lengkap</header>
+<main id="animeList"></main>
+<footer>Anime Hentai streaming | All rights reserved</footer>
+
+<script>
+  // Sample data with placeholder thumbnails and video URLs for demonstration
+  const animes = [
+    {
+      title: "Euphoria",
+      thumb: "https://i.imgur.com/mj7zQqN.jpg",
+      video: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    },
+    {
+      title: "Bible Black",
+      thumb: "https://i.imgur.com/aY5fJPA.jpg",
+      video: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    },
+    {
+      title: "School Days",
+      thumb: "https://i.imgur.com/DwrZeYa.jpg",
+      video: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    },
+    {
+      title: "Redo of Healer",
+      thumb: "https://i.imgur.com/exZY3gf.jpg",
+      video: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    },
+    {
+      title: "High School DxD",
+      thumb: "https://i.imgur.com/QZnH35P.jpg",
+      video: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    }
+  ];
+
+  const animeList = document.getElementById("animeList");
+
+  animes.forEach(anime => {
+    const card = document.createElement("div");
+    card.className = "anime-card";
+    card.tabIndex = 0;
+
+    const thumb = document.createElement("img");
+    thumb.className = "anime-thumb";
+    thumb.src = anime.thumb;
+    thumb.alt = anime.title + " thumbnail";
+
+    const info = document.createElement("div");
+    info.className = "anime-info";
+
+    const title = document.createElement("h3");
+    title.className = "anime-title";
+    title.textContent = anime.title;
+
+    info.appendChild(title);
+    card.appendChild(thumb);
+    card.appendChild(info);
+
+    card.addEventListener("click", () => {
+      openVideoPlayer(anime);
+    });
+
+    card.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        openVideoPlayer(anime);
+      }
+    });
+
+    animeList.appendChild(card);
+  });
+
+  function openVideoPlayer(anime) {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.backgroundColor = "rgba(0,0,0,0.95)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = 1000;
+
+    const videoContainer = document.createElement("div");
+    videoContainer.style.position = "relative";
+    videoContainer.style.width = "90%";
+    videoContainer.style.maxWidth = "600px";
+    videoContainer.style.aspectRatio = "16 / 9";
+    videoContainer.style.boxShadow = "0 0 45px 15px #ff3cac";
+
+    const video = document.createElement("video");
+    video.src = anime.video;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.borderRadius = "12px";
+
+    const closeBtn = document.createElement("button");
+    closeBtn.innerHTML = "&times;";
+    closeBtn.style.position = "absolute";
+    closeBtn.style.top = "-30px";
+    closeBtn.style.right = "0";
+    closeBtn.style.fontSize = "2rem";
+    closeBtn.style.color = "#ff3cac";
+    closeBtn.style.background = "transparent";
+    closeBtn.style.border = "none";
+    closeBtn.style.cursor = "pointer";
+    closeBtn.setAttribute('aria-label', 'Close video player');
+
+    closeBtn.addEventListener("click", () => {
+      video.pause();
+      document.body.removeChild(overlay);
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        video.pause();
+        document.body.removeChild(overlay);
+      }
+    });
+
+    videoContainer.appendChild(video);
+    videoContainer.appendChild(closeBtn);
+    overlay.appendChild(videoContainer);
+    document.body.appendChild(overlay);
+  }
+</script>
+</body>
+</html>
+
+```
